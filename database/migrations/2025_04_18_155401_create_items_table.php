@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('title');
+            $table->string('name');
             $table->text('description');
             $table->string('category');
             $table->enum('condition',['layak', 'rusak ringan', 'rusak berat']);
             $table->enum('status',['tersedia', 'diajukan', 'disetujui', 'selesai']);
-            $table->string('location');
-            $table->string('photo');
+            $table->string('location')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }
