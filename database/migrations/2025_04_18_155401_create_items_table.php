@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('description');
             $table->string('category');
             $table->enum('condition',['layak', 'rusak ringan', 'rusak berat']);
-            $table->enum('status',['tersedia', 'diajukan', 'disetujui', 'selesai']);
             $table->string('location')->nullable();
             $table->string('photo')->nullable();
             $table->timestamps();
