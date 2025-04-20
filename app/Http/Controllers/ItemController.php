@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -58,12 +59,25 @@ class ItemController extends Controller
         //
     }
 
+
+    public function myItems()
+    {
+        $items = Item::where('user_id', Auth::id())->latest()->get();
+        return view('items.my_items', compact('items'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        $item = Item::findOrFail($id);
+
+        if ($item->user_id !== Auth::id()){
+            abort(403, 'kamu tidak memiliki akses ke item ini.');
+        }
+
+        return view('items.edit', compact('item'));
     }
 
     /**
@@ -71,7 +85,46 @@ class ItemController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category' => 'required|string|max:255',  // Validasi kategori, jika ada
+            'location' => 'required|string|max:255',  // Validasi lokasi, jika ada
+            'condition' => 'required|string|in:layak,rusak ringan,rusak berat', // Validasi kondisi
+            'description' => 'nullable|string',
+            'photo' => 'nullable|image|max:2048', // Validasi foto, jika ada
+        ]);
+
+        // Cari item berdasarkan ID
+        $item = Item::findOrFail($id);
+
+        // Cek apakah user yang mengedit adalah pemilik item
+        if ($item->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Proses update data item
+        $item->update([
+            'name' => $request->input('name'),
+            'category' => $request->input('category'),
+            'location' => $request->input('location'),
+            'condition' => $request->input('condition'),
+            'description' => $request->input('description'),
+        ]);
+
+        // Jika ada foto yang diupload, proses penyimpanan foto
+        if ($request->hasFile('photo')) {
+            // Hapus foto lama jika ada
+            if ($item->photo) {
+                Storage::disk('public')->delete($item->photo);
+            }
+
+            // Simpan foto baru
+            $path = $request->file('photo')->store('photos', 'public');
+            $item->update(['photo' => $path]);
+        }
+
+        // Redirect kembali ke halaman yang sesuai dengan pesan sukses
+        return redirect()->route('my.items')->with('success', 'Barang Berhasil Di Update!.');
     }
 
     /**
@@ -79,6 +132,22 @@ class ItemController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $item = Item::findOrFail($id);
+
+        // Cek apakah user yang menghapus adalah pemilik item
+        if ($item->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Hapus foto jika ada
+        if ($item->photo) {
+            Storage::disk('public')->delete($item->photo);
+        }
+
+        // Hapus item
+        $item->delete();
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('my.items')->with('success', 'Barang Berhasil Di Hapus!.');
     }
 }

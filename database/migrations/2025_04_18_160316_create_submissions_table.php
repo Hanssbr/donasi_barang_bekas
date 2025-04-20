@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('message');
             $table->enum('status',['pending', 'disetujui', 'ditolak']);
-            $table->string('profile_photo')->nullable();
             $table->timestamps();
         });
     }

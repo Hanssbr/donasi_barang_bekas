@@ -84,6 +84,20 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('my.items') }}"
+                                class="nav-link {{ Request::is('/myitems') ? 'active' : '' }}">
+                                <i class="bi bi-archive"></i>
+                                <p>Barang Saya</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('submissions.index') }}"
+                                class="nav-link {{ Request::is('/submissions') ? 'active' : '' }}">
+                                <i class="bi bi-archive"></i>
+                                <p>Riwayat Permintaan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-box-seam-fill"></i>
                                 <p>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +22,13 @@ Route::middleware('auth')->group(function () {
 
     // items route
     Route::resource('items', ItemController::class);
+    Route::get('/myitems',[ItemController::class, 'myItems'])->name('my.items');
+
+    // submission route
+    Route::get('/submissions', [SubmissionController::class, 'index'])->name('submissions.index');
+    Route::get('/items/{item}/submit', [SubmissionController::class, 'create'])->name('submissions.create');
+    Route::post('/items/{item}/submit', [SubmissionController::class, 'store'])->name('submissions.store');
+
 });
 
 require __DIR__.'/auth.php';

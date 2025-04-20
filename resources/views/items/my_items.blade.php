@@ -4,13 +4,11 @@
 @section('content')
 
     <div class="row">
-        <!-- Menampilkan pesan sukses jika ada -->
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
-
         @foreach ($items as $item)
             <div class="col-md-4 mb-4"> <!-- Ganti 4 dengan 3 untuk 4 item per baris jika ingin lebih rapat -->
                 <div class="card">
@@ -39,8 +37,15 @@
                         <p class="card-text">{{ $item->description }}</p>
 
                         <!-- Link atau aksi lain bisa ditambahkan -->
-                        <a href="{{ route('submissions.create', ['item' => $item->id]) }}" class="btn btn-primary">Ajukan
-                            permintaan</a>
+                        <div class="d-flex justify-content-start gap-2">
+                            <a href="{{ route('items.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ route('items.destroy', $item->id) }}" method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this item?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </div>
 
                 </div>
