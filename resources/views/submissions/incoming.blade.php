@@ -22,7 +22,19 @@
                                     {{ ucfirst($submission->status) }}
                                 </span>
                             </p>
-                            <small>Dikirim pada {{ $submission->created_at->format('d M Y H:i') }}</small>
+                            <small>Dikirim pada {{ $submission->created_at->format('d M Y H:i') }}</small><br>
+                            @if ($submission->status == 'pending')
+                                <form action="{{ route('submissions.approve', $submission->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Setujui</button>
+                                </form>
+                                <form action="{{ route('submissions.reject', $submission->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Tolak</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>

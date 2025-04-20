@@ -75,7 +75,7 @@ class SubmissionController extends Controller
         $submission = Submission::findOrFail($id);
 
         // Update status submission menjadi 'rejected'
-        $submission->status = 'rejected';
+        $submission->status = 'ditolak';
         $submission->save();
 
         // Redirect kembali dengan pesan sukses

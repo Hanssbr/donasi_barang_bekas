@@ -29,8 +29,8 @@
                                 <span
                                     class="badge
                                     @if ($submission->status === 'pending') bg-warning
-                                    @elseif($submission->status === 'accepted') bg-success
-                                    @elseif($submission->status === 'rejected') bg-danger
+                                    @elseif($submission->status === 'disetujui') bg-success
+                                    @elseif($submission->status === 'ditolak') bg-danger
                                     @else bg-secondary @endif">
                                     {{ ucfirst($submission->status) }}
                                 </span><br>
