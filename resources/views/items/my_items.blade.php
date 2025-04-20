@@ -39,6 +39,7 @@
                         <!-- Link atau aksi lain bisa ditambahkan -->
                         <div class="d-flex justify-content-start gap-2">
                             <a href="{{ route('items.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('submissions.incoming', $item->id) }}" class="btn btn-warning">Permintaan</a>
                             <form action="{{ route('items.destroy', $item->id) }}" method="POST"
                                 onsubmit="return confirm('Are you sure you want to delete this item?')">
                                 @csrf

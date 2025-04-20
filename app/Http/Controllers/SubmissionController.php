@@ -45,6 +45,43 @@ class SubmissionController extends Controller
         return redirect()->route('items.index')->with('success', 'Permintaan Berhasil Diajukan!.');
     }
 
+    public function incoming()
+    {
+        $user = Auth::user();
+
+        $submissions = Submission::with('item', 'user')
+        ->whereHas('item', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->latest()->get();
+
+        return view('submissions.incoming', compact('submissions'));
+    }
+
+
+        public function approve($id)
+    {
+        $submission = Submission::findOrFail($id);
+
+        $submission->status = 'disetujui';
+        $submission->save();
+
+        // Redirect kembali dengan pesan sukses
+        return redirect()->route('submissions.incoming')->with('success', 'Pengajuan donasi telah disetujui.');
+    }
+
+    public function reject($id)
+    {
+        // Cari submission berdasarkan ID
+        $submission = Submission::findOrFail($id);
+
+        // Update status submission menjadi 'rejected'
+        $submission->status = 'rejected';
+        $submission->save();
+
+        // Redirect kembali dengan pesan sukses
+        return redirect()->route('submissions.incoming')->with('success', 'Pengajuan donasi telah ditolak.');
+    }
+
     /**
      * Display the specified resource.
      */
