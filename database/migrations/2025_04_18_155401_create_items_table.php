@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('condition',['layak', 'rusak ringan', 'rusak berat']);
             $table->string('location')->nullable();
             $table->string('photo')->nullable();
+            $table->string('status')->default('available');
             $table->timestamps();
         });
     }

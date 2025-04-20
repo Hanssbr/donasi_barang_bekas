@@ -45,17 +45,19 @@ class SubmissionController extends Controller
         return redirect()->route('items.index')->with('success', 'Permintaan Berhasil Diajukan!.');
     }
 
-    public function incoming()
+    public function incoming(Item $item)
     {
         $user = Auth::user();
 
-        $submissions = Submission::with('item', 'user')
-        ->whereHas('item', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })->latest()->get();
+        if ($item->user_id !== $user->id) {
+            abort(403, 'Anda tidak punya akses ke item ini.');
+        }
 
-        return view('submissions.incoming', compact('submissions'));
+        $submissions = $item->submissions()->with('user')->latest()->get();
+
+        return view('submissions.incoming', compact('item', 'submissions'));
     }
+
 
 
         public function approve($id)
@@ -64,6 +66,9 @@ class SubmissionController extends Controller
 
         $submission->status = 'disetujui';
         $submission->save();
+
+        $submission->item->status = 'unavailable';
+        $submission->item->save();
 
         // Redirect kembali dengan pesan sukses
         return redirect()->route('submissions.incoming')->with('success', 'Pengajuan donasi telah disetujui.');

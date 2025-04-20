@@ -18,7 +18,7 @@ class ItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(), // ini akan diganti di seeder
+            'user_id' => User::first()->id, // ini akan diganti di seeder
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'category' => $this->faker->randomElement(['baju', 'elektronik', 'mainan']),

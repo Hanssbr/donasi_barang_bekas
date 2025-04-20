@@ -14,7 +14,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::all();
+        $items = Item::where('status', 'available')->latest()->get();
         return view('items.show', compact('items'));
     }
 

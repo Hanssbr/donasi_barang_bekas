@@ -19,8 +19,8 @@ class SubmissionFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'item_id' => Item::factory(),
+            'user_id' => User::first()->id,
+            'item_id' => Item::first()->id,
             'message' => $this->faker->sentence(),
             'status' => $this->faker->randomElement(['pending', 'disetujui', 'ditolak']),
             'created_at' => now(),
