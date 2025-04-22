@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/items/{item}/comments', [CommentController::class, 'show'])->name('comments.show');
     Route::post('/items/{item}/comments', [CommentController::class, 'store'])->name('comments.store');
 
-
+    // report route
+    Route::get('items/{item}/reports', [ReportController::class, 'show'])->name('report.show');
+    Route::post('items/{item}/reports', [ReportController::class, 'store'])->name('report.store');
 
 });
 
