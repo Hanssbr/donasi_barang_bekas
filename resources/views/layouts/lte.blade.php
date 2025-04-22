@@ -32,6 +32,27 @@
                     <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
                     <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
                 </ul>
+                <div class="dropdown d-none d-sm-flex align-items-center ms-3">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ Auth::user()->name }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                {{ __('Profile') }}
+                            </a>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    {{ __('Log Out') }}
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
                 <!--end::Start Navbar Links-->
                 <!--begin::End Navbar Links-->
                 <!--end::End Navbar Links-->

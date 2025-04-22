@@ -41,8 +41,11 @@
                         <!-- Link atau aksi lain bisa ditambahkan -->
                         <a href="{{ route('submissions.create', ['item' => $item->id]) }}" class="btn btn-primary">Ajukan
                             permintaan</a>
-                    </div>
 
+                    </div>
+                    <a href="{{ route('comments.show', $item->id) }}" class="btn btn-secondary">
+                        Lihat Komentar
+                    </a>
                 </div>
             </div>
         @endforeach

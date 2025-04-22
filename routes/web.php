@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubmissionController;
@@ -31,6 +32,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-items/{item}/submissions', [SubmissionController::class, 'incoming'])->name('submissions.incoming');
     Route::post('/submissions/{submission}/approve', [SubmissionController::class, 'approve'])->name('submissions.approve');
     Route::post('/submissions/{submission}/reject', [SubmissionController::class, 'reject'])->name('submissions.reject');
+
+    // comment route
+    Route::get('/items/{item}/comments', [CommentController::class, 'show'])->name('comments.show');
+    Route::post('/items/{item}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+
 
 });
 
