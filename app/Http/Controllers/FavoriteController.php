@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use App\Models\Report;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ReportController extends Controller
+class FavoriteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Item $item)
+    public function index()
     {
-        return view('reports.store', compact('item'));
+        //
     }
 
     /**
@@ -25,22 +25,30 @@ class ReportController extends Controller
         //
     }
 
+    public function toggle(Item $item)
+    {
+        $user = Auth::user(); // Ambil user yang sedang login
+
+        // Cek apakah sudah ada favorit untuk item tersebut
+        $favorite = $user->favorites()->where('item_id', $item->id)->first();
+
+        if ($favorite) {
+            // Jika sudah ada, hapus dari favorit
+            $favorite->delete();
+        } else {
+            // Jika belum ada, tambahkan item ke favorit
+            $user->favorites()->create([  // Menggunakan $user untuk mengakses relasi favorites()
+                'item_id' => $item->id
+            ]);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Item $item)
+    public function store(Request $request)
     {
-        $request->validate([
-            'report'=>'required|string'
-        ]);
-
-        Report::create([
-            'user_id'=>Auth::id(),
-            'item_id'=>$item->id,
-            'report'=>$request->report
-        ]);
-
-        return redirect()->route('items.index')->with('success', 'Laporan berhasil dikirim.');
+        //
     }
 
     /**

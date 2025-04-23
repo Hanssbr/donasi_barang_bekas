@@ -41,6 +41,8 @@
                         <!-- Link atau aksi lain bisa ditambahkan -->
                         <a href="{{ route('submissions.create', ['item' => $item->id]) }}" class="btn btn-primary">Ajukan
                             permintaan</a>
+                        <a href="{{ route('report.index', ['item' => $item->id]) }}" class="btn btn-danger"><i
+                                class="bi bi-flag-fill"></i></a>
 
                     </div>
                     <a href="{{ route('comments.show', $item->id) }}" class="btn btn-secondary">

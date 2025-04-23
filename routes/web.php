@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
@@ -39,8 +40,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/items/{item}/comments', [CommentController::class, 'store'])->name('comments.store');
 
     // report route
-    Route::get('items/{item}/reports', [ReportController::class, 'show'])->name('report.show');
+    Route::get('items/{item}/reports', [ReportController::class, 'index'])->name('report.index');
     Route::post('items/{item}/reports', [ReportController::class, 'store'])->name('report.store');
+
+
+    // favorite
+    Route::post('/favorite/{item}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
 
 });
 
