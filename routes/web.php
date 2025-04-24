@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
 
     // favorite
     Route::post('/favorite/{item}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+
 
 
 });

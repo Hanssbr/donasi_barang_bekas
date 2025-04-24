@@ -14,7 +14,12 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-        //
+        $user = app('auth')->user();
+
+        // Ambil item favorit beserta data item-nya
+        $favorites = $user->favorites()->with('item')->get();
+
+        return view('items.favorite', compact('favorites'));
     }
 
     /**
@@ -27,7 +32,8 @@ class FavoriteController extends Controller
 
     public function toggle(Item $item)
     {
-        $user = Auth::user(); // Ambil user yang sedang login
+        $user = $user = app('auth')->user(); // Ambil user yang sedang login
+
 
         // Cek apakah sudah ada favorit untuk item tersebut
         $favorite = $user->favorites()->where('item_id', $item->id)->first();
@@ -41,6 +47,8 @@ class FavoriteController extends Controller
                 'item_id' => $item->id
             ]);
         }
+
+        return redirect()->back()->with('success', 'Berhasil memperbarui favorit.');
     }
 
     /**

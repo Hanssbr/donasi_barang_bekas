@@ -69,7 +69,7 @@
                     <!--begin::Brand Image-->
                     <!--end::Brand Image-->
                     <!--begin::Brand Text-->
-                    <span class="brand-text fw-light">Second Choice</span>
+                    <span class="brand-text fw-light">Second</span>
                     <!--end::Brand Text-->
                 </a>
                 <!--end::Brand Link-->
@@ -109,6 +109,13 @@
                                 class="nav-link {{ Request::is('/myitems') ? 'active' : '' }}">
                                 <i class="bi bi-archive"></i>
                                 <p>Barang Saya</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('favorites.index') }}"
+                                class="nav-link {{ Request::is('/my-favorites') ? 'active' : '' }}">
+                                <i class="bi bi-archive"></i>
+                                <p>Barang Favorite</p>
                             </a>
                         </li>
                         <li class="nav-item">

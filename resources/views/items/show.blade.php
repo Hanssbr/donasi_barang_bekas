@@ -43,6 +43,14 @@
                             permintaan</a>
                         <a href="{{ route('report.index', ['item' => $item->id]) }}" class="btn btn-danger"><i
                                 class="bi bi-flag-fill"></i></a>
+                        <form action="{{ route('favorites.toggle', $item->id) }}" method="POST" style="display:inline">
+                            @csrf
+                            <button type="submit"
+                                class="btn btn-sm {{ $item->isFavoritedBy(auth()->user()) ? 'btn-danger' : 'btn-outline-danger' }}">
+                                ❤️ {{ $item->isFavoritedBy(auth()->user()) ? 'Unfavorite' : 'Favorite' }}
+                            </button>
+                        </form>
+
 
                     </div>
                     <a href="{{ route('comments.show', $item->id) }}" class="btn btn-secondary">

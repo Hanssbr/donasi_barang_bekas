@@ -39,4 +39,9 @@ class Item extends Model
     public function reports() {
         return $this->hasMany(Report::class);
     }
+
+    public function isFavoritedBy($user)
+    {
+        return $this->favorites()->where('user_id', $user->id)->exists();
+    }
 }
