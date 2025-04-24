@@ -33,10 +33,18 @@
                     <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
                 </ul>
                 <div class="dropdown d-none d-sm-flex align-items-center ms-3">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+
+                        {{-- Foto profil --}}
+                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/default-profile.png') }}"
+                            alt="Foto Profil" class="rounded-circle me-2"
+                            style="width: 30px; height: 30px; object-fit: cover;">
+
+                        {{-- Nama User --}}
                         {{ Auth::user()->name }}
                     </button>
+
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li>
                             <a class="dropdown-item" href="{{ route('profile.edit') }}">
@@ -53,6 +61,7 @@
                         </li>
                     </ul>
                 </div>
+
                 <!--end::Start Navbar Links-->
                 <!--begin::End Navbar Links-->
                 <!--end::End Navbar Links-->
@@ -125,6 +134,15 @@
                                 <p>Riwayat Permintaan</p>
                             </a>
                         </li>
+                        @if (auth()->user()->hasRole('admin'))
+                            <li class="nav-item">
+                                <a href="{{ route('report.show') }}"
+                                    class="nav-link {{ Request::is('/admin/report') ? 'active' : '' }}">
+                                    <i class="bi bi-archive"></i>
+                                    <p>daftar laporan</p>
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-box-seam-fill"></i>

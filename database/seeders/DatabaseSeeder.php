@@ -52,10 +52,6 @@ class DatabaseSeeder extends Seeder
                 'item_id' => Item::inRandomOrder()->first()->id
             ]));
 
-            // Buat history
-            $user->histories()->saveMany(History::factory()->count(1)->make([
-                'item_id' => Item::inRandomOrder()->first()->id
-            ]));
         });
     }
 }

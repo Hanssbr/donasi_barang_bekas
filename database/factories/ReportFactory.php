@@ -21,7 +21,7 @@ class ReportFactory extends Factory
         return [
             'user_id' => User::first()->id,
             'item_id' => Item::first()->id,
-            'reports' => $this->faker->sentence(),
+            'report' => $this->faker->sentence(),
             'created_at' => now(),
             'updated_at' => now(),
         ];

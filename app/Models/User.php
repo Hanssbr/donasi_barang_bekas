@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'photo',
+        'role',
     ];
 
     /**
@@ -67,7 +68,8 @@ class User extends Authenticatable
         return $this->hasMany(Report::class);
     }
 
-    public function histories() {
-        return $this->hasMany(History::class);
+    public function hasRole($role)
+    {
+        return $this->role === $role;
     }
 }

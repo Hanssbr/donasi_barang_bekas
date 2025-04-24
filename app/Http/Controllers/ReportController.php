@@ -46,9 +46,11 @@ class ReportController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        $reports = Report::with('item', 'user')->get(); // Menambahkan relasi ke 'item' dan 'user'
+
+        return view('reports.show', compact('reports'));
     }
 
     /**

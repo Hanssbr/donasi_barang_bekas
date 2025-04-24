@@ -47,7 +47,7 @@
                             @csrf
                             <button type="submit"
                                 class="btn btn-sm {{ $item->isFavoritedBy(auth()->user()) ? 'btn-danger' : 'btn-outline-danger' }}">
-                                ❤️ {{ $item->isFavoritedBy(auth()->user()) ? 'Unfavorite' : 'Favorite' }}
+                                {{ $item->isFavoritedBy(auth()->user()) ? <i class="bi bi-heart"></i> : 'Favorite' }}
                             </button>
                         </form>
 

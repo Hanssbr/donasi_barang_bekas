@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -50,6 +51,10 @@ Route::middleware('auth')->group(function () {
 
 
 
+});
+
+Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
+    Route::get('/admin/reports', [ReportController::class, 'show'])->name('report.show');
 });
 
 require __DIR__.'/auth.php';
