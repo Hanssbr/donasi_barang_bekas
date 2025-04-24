@@ -150,4 +150,25 @@ class ItemController extends Controller
         // Redirect ke halaman index dengan pesan sukses
         return redirect()->route('my.items')->with('success', 'Barang Berhasil Di Hapus!.');
     }
+    public function adminDestroy(string $id)
+    {
+        $item = Item::findOrFail($id);
+
+        // Cek apakah user yang menghapus adalah pemilik item
+        if ($item->user_id !== Auth::id() && app('user')->user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+
+        // Hapus foto jika ada
+        if ($item->photo) {
+            Storage::disk('public')->delete($item->photo);
+        }
+
+        // Hapus item
+        $item->delete();
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('my.items')->with('success', 'Barang Berhasil Di Hapus!.');
+    }
 }

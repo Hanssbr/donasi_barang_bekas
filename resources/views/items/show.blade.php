@@ -47,9 +47,25 @@
                             @csrf
                             <button type="submit"
                                 class="btn btn-sm {{ $item->isFavoritedBy(auth()->user()) ? 'btn-danger' : 'btn-outline-danger' }}">
-                                {{ $item->isFavoritedBy(auth()->user()) ? <i class="bi bi-heart"></i> : 'Favorite' }}
+                                @if ($item->isFavoritedBy(auth()->user()))
+                                    <i class="bi bi-heart-fill"></i>
+                                @else
+                                    <i class="bi bi-heart"></i>
+                                @endif
                             </button>
                         </form>
+                        @auth
+                            @if (auth()->user()->role === 'admin')
+                                <form action="{{ route('admin.destroy', $item->id) }}" method="POST"
+                                    onsubmit="return confirm('Yakin ingin menghapus item ini?')" class="mt-4">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
 
 
                     </div>

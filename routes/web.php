@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin/reports', [ReportController::class, 'show'])->name('report.show');
+    Route::delete('/admin/delete/{item}', [ItemController::class, 'adminDestroy'])->name('admin.destroy');
 });
 
 require __DIR__.'/auth.php';
