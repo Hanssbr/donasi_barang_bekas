@@ -77,11 +77,14 @@
                 <!--begin::Brand Link-->
                 <a href="./index.html" class="brand-link">
                     <!--begin::Brand Image-->
+                    <img src="{{ asset('assets/assets/img/GiveBox.png') }}" alt="GiveBox Logo" class="brand-image"
+                        style="height: 40px;">
                     <!--end::Brand Image-->
                     <!--begin::Brand Text-->
-                    <span class="brand-text fw-light">Second</span>
+                    <span class="brand-text fw-light">GiveBox</span>
                     <!--end::Brand Text-->
                 </a>
+
                 <!--end::Brand Link-->
             </div>
             <!--end::Sidebar Brand-->
@@ -101,78 +104,60 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('items.create') }}"
-                                class="nav-link {{ Request::is('items/create') ? 'active' : '' }}">
-                                <i class="nav-icon bi bi-palette"></i>
-                                <p>Posting Barang</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('items.index') }}"
-                                class="nav-link {{ Request::is('items') ? 'active' : '' }}">
-                                <i class="bi bi-archive"></i>
-                                <p>Barang Bekas</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('my.items') }}"
-                                class="nav-link {{ Request::is('/myitems') ? 'active' : '' }}">
-                                <i class="bi bi-archive"></i>
-                                <p>Barang Saya</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('favorites.index') }}"
-                                class="nav-link {{ Request::is('/my-favorites') ? 'active' : '' }}">
-                                <i class="bi bi-archive"></i>
-                                <p>Barang Favorite</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('submissions.index') }}"
-                                class="nav-link {{ Request::is('/submissions') ? 'active' : '' }}">
-                                <i class="bi bi-archive"></i>
-                                <p>Riwayat Permintaan</p>
-                            </a>
-                        </li>
-                        @if (auth()->user()->hasRole('admin'))
-                            <li class="nav-item">
-                                <a href="{{ route('report.show') }}"
-                                    class="nav-link {{ Request::is('/admin/report') ? 'active' : '' }}">
-                                    <i class="bi bi-archive"></i>
-                                    <p>daftar laporan</p>
-                                </a>
-                            </li>
-                        @endif
-                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-box-seam-fill"></i>
                                 <p>
-                                    Widgets
+                                    Barang
                                     <i class="nav-arrow bi bi-chevron-right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./widgets/small-box.html" class="nav-link">
-                                        <i class="nav-icon bi bi-circle"></i>
-                                        <p>Small Box</p>
+                                    <a href="{{ route('items.create') }}"
+                                        class="nav-link {{ Request::is('items/create') ? 'active' : '' }}">
+                                        <i class="bi bi-box-seam"></i>
+                                        <p>Posting Barang</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./widgets/info-box.html" class="nav-link">
-                                        <i class="nav-icon bi bi-circle"></i>
-                                        <p>info Box</p>
+                                    <a href="{{ route('items.index') }}"
+                                        class="nav-link {{ Request::is('items') ? 'active' : '' }}">
+                                        <i class="bi bi-box-seam"></i>
+                                        <p>Barang Bekas</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./widgets/cards.html" class="nav-link">
-                                        <i class="nav-icon bi bi-circle"></i>
-                                        <p>Cards</p>
+                                    <a href="{{ route('my.items') }}"
+                                        class="nav-link {{ Request::is('/myitems') ? 'active' : '' }}">
+                                        <i class="bi bi-box-seam"></i>
+                                        <p>Barang Saya</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('favorites.index') }}"
+                                        class="nav-link {{ Request::is('/my-favorites') ? 'active' : '' }}">
+                                        <i class="bi bi-box2-heart"></i>
+                                        <p>Barang Favorite</p>
                                     </a>
                                 </li>
                             </ul>
+                        <li class="nav-item">
+                            <a href="{{ route('submissions.index') }}"
+                                class="nav-link {{ Request::is('/submissions') ? 'active' : '' }}">
+                                <i class="bi bi-gift"></i>
+                                <p>Riwayat Permintaan</p>
+                            </a>
                         </li>
+                        </li>
+                        @if (auth()->user()->hasRole('admin'))
+                            <li class="nav-item">
+                                <a href="{{ route('report.show') }}"
+                                    class="nav-link {{ Request::is('/admin/report') ? 'active' : '' }}">
+                                    <i class="bi bi-flag"></i>
+                                    <p>Daftar Laporan</p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                     <!--end::Sidebar Menu-->
                 </nav>
