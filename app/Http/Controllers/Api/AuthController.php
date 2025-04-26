@@ -26,4 +26,9 @@ class AuthController extends Controller
             'user' => $user
         ]);
     }
+
+    public function logout(Request $request) {
+        $request->user()->currentAccessToken()->delete();
+        return ResponseHelper::jsonResponseMethod(status: 'success', message: 'successfully log out');
+    }
 }

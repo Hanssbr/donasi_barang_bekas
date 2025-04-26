@@ -46,4 +46,48 @@ class ItemController extends Controller
 
         return ResponseHelper::jsonResponseMethod(data: $item, status: 'success');
     }
+
+
+    public function show(string $id)
+    {
+        $item = Item::with('user')->find($id);
+        if(!$item){
+            return ResponseHelper::jsonResponseMethod(message: 'Product not found', status: 'error', errorCode: 404);
+        }
+        return ResponseHelper::jsonResponseMethod(data: $item, status: 'success');
+
+    }
+
+    public function update(Request $request, String $id){
+        $item = Item::find($id);
+        if(!$item){
+            return ResponseHelper::jsonResponseMethod(message: "Item Not Found.", status: 'error', errorCode : 404);
+        }
+
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->category = $request->category;
+        $item->location = $request->location;
+        $item->status = $request->status;
+
+        if($request->file('photo')){
+            $photo = $request->file('photo');
+            $photo->storeAs('public/photo', $photo->hashName());
+            $item->photo = $photo->hashName();
+        }
+
+        $item->save();
+
+        return ResponseHelper::jsonResponseMethod(data: $item, status: 'success');
+
+    }
+
+    public function destroy(String $id){
+        $item = Item::find($id);
+        if(!$item){
+            return ResponseHelper::jsonResponseMethod(message: 'Product not found', status: 'error', errorCode: 404);
+        }
+        $item->delete();
+        return ResponseHelper::jsonResponseMethod(message: 'Product successfully deleted', status: 'success');
+    }
 }
