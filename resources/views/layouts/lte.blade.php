@@ -37,9 +37,10 @@
                         id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
 
                         {{-- Foto profil --}}
-                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/default-profile.png') }}"
+                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/assets/img/no-profile.jpg') }}"
                             alt="Foto Profil" class="rounded-circle me-2"
                             style="width: 30px; height: 30px; object-fit: cover;">
+
 
                         {{-- Nama User --}}
                         {{ Auth::user()->name }}
