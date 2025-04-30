@@ -59,7 +59,6 @@ class ItemController extends Controller
         //
     }
 
-
     public function myItems()
     {
         $items = Item::where('user_id', Auth::id())->latest()->get();

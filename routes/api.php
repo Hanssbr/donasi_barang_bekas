@@ -15,3 +15,4 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::apiResource('/all-items', ItemController::class);
 Route::apiResource('/all-submissions', SubmissionController::class)->middleware('auth:sanctum');
+Route::get('/recommendation', [ItemController::class, 'recomendation']);

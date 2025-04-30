@@ -47,6 +47,11 @@ class ItemController extends Controller
         return ResponseHelper::jsonResponseMethod(data: $item, status: 'success');
     }
 
+    public function recomendation()
+    {
+        $items = Item::inRandomOrder()->limit(5)->get();
+        return response()->json($items);
+    }
 
     public function show(string $id)
     {
