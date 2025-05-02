@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -49,7 +50,11 @@ class ItemController extends Controller
 
     public function recomendation()
     {
-        $items = Item::inRandomOrder()->limit(5)->get();
+        $items = Item::withCount('favorites')
+        ->orderByDesc('favorites_count')
+        ->take(4) // Ambil 10 item teratas
+        ->get();
+
         return response()->json($items);
     }
 
@@ -94,5 +99,18 @@ class ItemController extends Controller
         }
         $item->delete();
         return ResponseHelper::jsonResponseMethod(message: 'Product successfully deleted', status: 'success');
+    }
+
+    public function favItem(){
+        $user = app('auth')->user();  // Ambil pengguna yang sedang login
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
+
+        // Ambil item favorit dari user
+        $favorites = $user->favorites()->with('item')->get();
+
+        return response()->json($favorites);
     }
 }

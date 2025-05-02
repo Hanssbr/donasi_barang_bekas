@@ -16,3 +16,4 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::apiResource('/all-items', ItemController::class);
 Route::apiResource('/all-submissions', SubmissionController::class)->middleware('auth:sanctum');
 Route::get('/recommendation', [ItemController::class, 'recomendation']);
+Route::get('/favorit', [ItemController::class, 'favItem'])->middleware('auth:sanctum');
