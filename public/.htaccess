@@ -23,3 +23,9 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<FilesMatch "\.(jpg|jpeg|png|gif|bmp|tiff|json|html|css|js)$">
+    Header set Access-Control-Allow-Origin "https://hanssbr.github.io"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Origin, Content-Type, Accept"
+</FilesMatch>
