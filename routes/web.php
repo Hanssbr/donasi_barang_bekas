@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
 
     // items route
     Route::resource('items', ItemController::class);
+    Route::get('items/{item}/edit', [ItemController::class])->middleware('auth');
     Route::get('/myitems',[ItemController::class, 'myItems'])->name('my.items');
 
     // submission route
