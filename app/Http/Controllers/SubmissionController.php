@@ -49,7 +49,7 @@ class SubmissionController extends Controller
     {
         $user = Auth::user();
 
-        if ($item->user_id !== $user->id) {
+        if ($item->user_id != $user->id) {
             abort(403, 'Anda tidak punya akses ke item ini.');
         }
 
