@@ -13,9 +13,9 @@
             <div class="col-md-4 mb-4"> <!-- Ganti 4 dengan 3 untuk 4 item per baris jika ingin lebih rapat -->
                 <div class="card">
                     @if ($item->photo)
-                        <img src="{{ asset('storage/' . $item->photo) }}" class="card-img-top" alt="photo">
+                        <img src="{{ asset('storage/' . $item->photo) }}" class="card-img-top img-fixed" alt="photo">
                     @else
-                        <img src="{{ asset('assets/assets/img/error.jpg') }}" class="card-img-top" alt="photo">
+                        <img src="{{ asset('assets/assets/img/error.jpg') }}" class="card-img-top img-fixed" alt="photo">
                     @endif
 
                     <div class="card-body">
@@ -34,7 +34,7 @@
                         <p class="text-muted mb-2">{{ $item->location }} <i class="bi bi-geo-alt-fill"></i></p>
 
                         <!-- Deskripsi -->
-                        <p class="card-text">{{ $item->description }}</p>
+                        <p class="card-text item-description">{{ $item->description }}</p>
 
                         <!-- Link atau aksi lain bisa ditambahkan -->
                         <div class="d-flex justify-content-start gap-2">

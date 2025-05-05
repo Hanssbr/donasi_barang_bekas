@@ -180,6 +180,24 @@
                             <div class="card">
                                 <div class="card-body">
                                     @yield('content')
+                                    <style>
+                                        .img-fixed {
+                                            height: 200px;
+                                            /* Sesuaikan tinggi */
+                                            object-fit: cover;
+                                            /* Potong bagian yang melebihi */
+                                            object-position: center;
+                                            /* Fokus tengah gambar */
+                                        }
+
+                                        .item-description {
+                                            height: 100px;
+                                            /* Atur tinggi tetap */
+                                            overflow-y: auto;
+                                            /* Scroll vertikal */
+                                            padding-right: 5px;
+                                        }
+                                    </style>
                                 </div>
                             </div>
                         </div>
