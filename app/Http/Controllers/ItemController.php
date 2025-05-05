@@ -97,7 +97,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
 
         // Cek apakah user yang mengedit adalah pemilik item
-        if ($item->user_id !== Auth::id()) {
+        if ($item->user_id != Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -134,7 +134,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
 
         // Cek apakah user yang menghapus adalah pemilik item
-        if ($item->user_id !== Auth::id()) {
+        if ($item->user_id != Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -154,7 +154,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
 
         // Cek apakah user yang menghapus adalah pemilik item
-        if ($item->user_id !== Auth::id() && app('auth')->user()->role !== 'admin') {
+        if ($item->user_id != Auth::id() && app('auth')->user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
