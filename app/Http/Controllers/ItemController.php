@@ -72,7 +72,12 @@ class ItemController extends Controller
     {
         $item = Item::findOrFail($id);
 
-        if ($item->user_id !== Auth::id()){
+        dd([
+            'auth_id' => Auth::id(),
+            'item_user_id' => $item->user_id,
+        ]);
+
+        if ($item->user_id !== Auth::id()) {
             abort(403, 'kamu tidak memiliki akses ke item ini.');
         }
 
