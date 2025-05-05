@@ -25,8 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // items route
-    Route::resource('items', ItemController::class);
-    Route::get('items/{item}/edit', [ItemController::class])->middleware('auth');
+    Route::resource('items', ItemController::class)->middleware('auth');
     Route::get('/myitems',[ItemController::class, 'myItems'])->name('my.items');
 
     // submission route
