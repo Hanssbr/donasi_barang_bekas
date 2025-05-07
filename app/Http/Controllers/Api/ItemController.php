@@ -42,6 +42,7 @@ class ItemController extends Controller
             $photo->storeAs('public/photo', $photo->hashName());
             $item->photo = $photo->hashName();
         }
+        dd($request->file('photo'));
 
         $item->save();
         $item = Item::with('user')->find($item->id);
