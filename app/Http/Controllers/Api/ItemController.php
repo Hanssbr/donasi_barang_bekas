@@ -40,7 +40,7 @@ class ItemController extends Controller
         if($request->file('photo')){
             $photo = $request->file('photo');
             $photo->storeAs('public/photo', $photo->hashName());
-            $item->photo = $photo->hashName();
+            $item->photo = 'photo/' . $photo->hashName();
         }
 
         $item->save();
