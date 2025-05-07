@@ -37,11 +37,13 @@ class ItemController extends Controller
         $item->location = $request->location;
         $item->status = 'available';
 
-        if($request->file('photo')){
+        if ($request->file('photo')) {
             $photo = $request->file('photo');
-            $photo->storeAs('public/photo', $photo->hashName());
-            $item->photo = 'photo/' . $photo->hashName();
+            // Menyimpan foto langsung ke disk public
+            $photoPath = $photo->store('photo', 'public');  // 'public' adalah disk yang mengarah ke storage/app/public
+            $item->photo = $photoPath;  // Menyimpan path relatif ke database
         }
+
 
         $item->save();
         $item = Item::with('user')->find($item->id);
