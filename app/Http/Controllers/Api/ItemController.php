@@ -24,6 +24,7 @@ class ItemController extends Controller
             'description' => 'required',
             'category' => 'required',
             'location' => 'required',
+            'photo' => 'nullable|image|max:2048',
         ]);
 
         $user = $request->user();
