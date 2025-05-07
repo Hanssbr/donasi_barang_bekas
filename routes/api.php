@@ -14,7 +14,8 @@ Route::get('/user', function (Request $request){
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::apiResource('/all-items', ItemController::class)->middleware('auth:sanctum');
+Route::apiResource('/all-items', ItemController::class);
+Route::post('/all-items', [ItemController::class, 'store'])->middleware('auth:sanctum');
 Route::apiResource('/all-submissions', SubmissionController::class)->middleware('auth:sanctum');
 Route::get('/recommendation', [ItemController::class, 'recomendation']);
 Route::get('/favorit', [ItemController::class, 'favItem'])->middleware('auth:sanctum');
