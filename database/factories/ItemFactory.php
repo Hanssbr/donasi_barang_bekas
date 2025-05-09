@@ -21,9 +21,10 @@ class ItemFactory extends Factory
             'user_id' => User::first()->id, // ini akan diganti di seeder
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
-            'category' => $this->faker->randomElement(['baju', 'elektronik', 'mainan']),
+            'category' => $this->faker->randomElement(['pakaian', 'elektronik', 'mainan', 'lainnya']),
             'condition' => $this->faker->randomElement(['layak', 'rusak ringan', 'rusak berat']),
             'location' => $this->faker->word(),
+            'status' => $this->faker->randomElement(['available', 'unavailable']),
         ];
     }
 }

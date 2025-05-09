@@ -23,6 +23,7 @@ class ItemController extends Controller
             'name' => 'required',
             'description' => 'required',
             'category' => 'required',
+            'condition' => 'required',
             'location' => 'required',
             'photo' => 'nullable|image|max:2048',
         ]);
@@ -34,6 +35,7 @@ class ItemController extends Controller
         $item->name = $request->name;
         $item->description = $request->description;
         $item->category = $request->category;
+        $item->condition = $request->condition;
         $item->location = $request->location;
         $item->status = 'available';
 

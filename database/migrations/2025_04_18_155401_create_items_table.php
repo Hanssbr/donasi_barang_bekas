@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('description');
-            $table->string('category');
+            $table->enum('category', ['pakaian', 'elektronik', 'buku', 'mainan', 'lainnya']);
             $table->enum('condition',['layak', 'rusak ringan', 'rusak berat']);
             $table->string('location')->nullable();
             $table->string('photo')->nullable();
-            $table->string('status')->default('available');
+            $table->enum('status', ['available', 'unavailable'])->default('available');
             $table->timestamps();
         });
     }
