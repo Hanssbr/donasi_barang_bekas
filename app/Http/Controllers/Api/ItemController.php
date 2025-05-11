@@ -148,17 +148,22 @@ class ItemController extends Controller
         try {
             $item = Item::findOrFail($id);
 
-            if ($item->user_id != Auth::id()) {
-                return response()->json(['message' => 'Unauthorized'], 403);
-            }
+        if ($item->user_id != Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
-            $item->status = $item->status === 'available' ? 'unavailable' : 'available';
-            $item->save();
 
-            return response()->json([
-                'message' => 'Item status updated succesfully',
-                'status' => $item->status
-            ]);
+        if ($item->status === 'unavailable') {
+            return response()->json(['message' => 'Item is unavailable and cannot be set to available.'], 400);
+        }
+
+        $item->status = $item->status === 'available' ? 'unavailable' : 'available';
+        $item->save();
+
+        return response()->json([
+            'message' => 'Item status updated successfully',
+            'status' => $item->status
+        ]);;
         } catch (ModelNotFoundException $e){
             return response()->json(['message' => 'Item not found.'], 404);
         }
