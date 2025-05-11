@@ -144,42 +144,49 @@ class ItemController extends Controller
         }
     }
 
-    public function toggleStatus(Request $request, $id)
-{
-    // Validasi input
-    $request->validate([
-        'status' => 'required|string',
-    ]);
+   public function toggleStatus(Request $request, $id)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'status' => 'required|string',
+        ]);
 
-    // Cari item berdasarkan ID
-    $item = Item::find($id);
+        // Cari item berdasarkan ID
+        $item = Item::with('user')->find($id);
 
-    if (!$item) {
-        return response()->json(['message' => 'Item not found'], 404);
-    }
+        if (!$item) {
+            return response()->json(['message' => 'Item not found'], 404);
+        }
 
-    // Update status item
-    $item->status = $request->status;
-    $item->save();
+        // Update status
+        $item->status = $validated['status'];
+        $item->save();
 
-    // Mengembalikan respons dengan data lengkap
-    return response()->json([
-        'id' => $item->id,
-        'user_id' => $item->user_id,
-        'name' => $item->name,
-        'description' => $item->description,
-        'category' => $item->category,
-        'condition' => $item->condition,
-        'location' => $item->location,
-        'photo' => $item->photo,
-        'status' => $item->status,
-        'created_at' => $item->created_at->toISOString(),
-        'updated_at' => $item->updated_at->toISOString(),
-        'user' => [
+        // Siapkan data user jika ada
+        $user = $item->user ? [
             'id' => $item->user->id,
             'name' => $item->user->name,
             'email' => $item->user->email,
-        ]
-    ], 200);
-}
+        ] : null;
+
+        // Kembalikan response JSON lengkap
+        return response()->json([
+            'message' => 'Item status updated successfully',
+            'data' => [
+                'id' => $item->id,
+                'user_id' => $item->user_id,
+                'name' => $item->name,
+                'description' => $item->description,
+                'category' => $item->category,
+                'condition' => $item->condition,
+                'location' => $item->location,
+                'photo' => $item->photo,
+                'status' => $item->status,
+                'created_at' => $item->created_at->toISOString(),
+                'updated_at' => $item->updated_at->toISOString(),
+                'user' => $user
+            ]
+        ]);
+    }
+
 }
