@@ -126,7 +126,7 @@ class ItemController extends Controller
         return ResponseHelper::jsonResponseMethod(data: $items, status: 'success');
     }
 
-    public function destroyMyItems($id)
+    public function destroyMyItem($id)
 {
     $item = Item::findOrFail($id);
 
