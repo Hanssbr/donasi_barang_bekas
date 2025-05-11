@@ -20,4 +20,5 @@ Route::apiResource('/all-submissions', SubmissionController::class)->middleware(
 Route::get('/recommendation', [ItemController::class, 'recomendation']);
 Route::get('/favorit', [ItemController::class, 'favItem'])->middleware('auth:sanctum');
 Route::post('/items/{item}/favorite', [FavoriteController::class, 'toggle'])->middleware('auth:sanctum');
+Route::get('/my-items', [ItemController::class, 'myItemsApi'])->middleware('auth:sanctum');
 

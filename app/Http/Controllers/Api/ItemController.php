@@ -118,4 +118,11 @@ class ItemController extends Controller
 
         return response()->json($favorites);
     }
+
+    public function myItemsApi()
+    {
+        $items = Item::where('user_id', Auth::id())->latest()->get();
+
+        return ResponseHelper::jsonResponseMethod(data: $items, status: 'success');
+    }
 }
