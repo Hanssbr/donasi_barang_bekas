@@ -144,28 +144,42 @@ class ItemController extends Controller
         }
     }
 
-    public function toggleStatus ($id, Request $request){
-        try {
-            $item = Item::findOrFail($id);
+    public function toggleStatus(Request $request, $id)
+{
+    // Validasi input
+    $request->validate([
+        'status' => 'required|string',
+    ]);
 
-        if ($item->user_id != Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+    // Cari item berdasarkan ID
+    $item = Item::find($id);
 
-
-        if ($item->status === 'unavailable') {
-            return response()->json(['message' => 'Item is unavailable and cannot be set to available.'], 400);
-        }
-
-        $item->status = $item->status === 'available' ? 'unavailable' : 'available';
-        $item->save();
-
-        return response()->json([
-            'message' => 'Item status updated successfully',
-            'status' => $item->status
-        ]);;
-        } catch (ModelNotFoundException $e){
-            return response()->json(['message' => 'Item not found.'], 404);
-        }
+    if (!$item) {
+        return response()->json(['message' => 'Item not found'], 404);
     }
+
+    // Update status item
+    $item->status = $request->status;
+    $item->save();
+
+    // Mengembalikan respons dengan data lengkap
+    return response()->json([
+        'id' => $item->id,
+        'user_id' => $item->user_id,
+        'name' => $item->name,
+        'description' => $item->description,
+        'category' => $item->category,
+        'condition' => $item->condition,
+        'location' => $item->location,
+        'photo' => $item->photo,
+        'status' => $item->status,
+        'created_at' => $item->created_at->toISOString(),
+        'updated_at' => $item->updated_at->toISOString(),
+        'user' => [
+            'id' => $item->user->id,
+            'name' => $item->user->name,
+            'email' => $item->user->email,
+        ]
+    ], 200);
+}
 }
