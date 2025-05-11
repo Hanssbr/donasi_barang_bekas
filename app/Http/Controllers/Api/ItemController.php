@@ -130,14 +130,13 @@ class ItemController extends Controller
 {
     $item = Item::findOrFail($id);
 
-    // Pastikan user yang login adalah pemilik item
-    if ($item->user_id !== Auth::id()) {
+    if ($item->user_id != Auth::id()) {
         return response()->json(['message' => 'Unauthorized'], 403);
     }
 
     $item->delete();
 
-    return ResponseHelper::jsonResponseMethod(data: $item, status: 'success');
+    return response()->json(['message' => 'Item deleted successfully']);
 
 }
 }
