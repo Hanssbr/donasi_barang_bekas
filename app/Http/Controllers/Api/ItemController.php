@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -127,16 +128,19 @@ class ItemController extends Controller
     }
 
     public function destroyMyItem($id)
-{
-    $item = Item::findOrFail($id);
+    {
+        try {
+        $item = Item::findOrFail($id);
 
-    if ($item->user_id != Auth::id()) {
-        return response()->json(['message' => 'Unauthorized'], 403);
+        if ($item->user_id != Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $item->delete();
+
+        return response()->json(['message' => 'Item deleted successfully']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Item not found'], 404);
+        }
     }
-
-    $item->delete();
-
-    return response()->json(['message' => 'Item deleted successfully']);
-
-}
 }
