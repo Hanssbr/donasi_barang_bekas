@@ -143,4 +143,24 @@ class ItemController extends Controller
             return response()->json(['message' => 'Item not found'], 404);
         }
     }
+
+    public function toggleStatus ($id, Request $request){
+        try {
+            $item = Item::findOrFail($id);
+
+            if ($item->user_id != Auth::id()) {
+                return response()->json(['message' => 'Unauthorized'], 403);
+            }
+
+            $item->status = $item->status === 'available' ? 'unavailable' : 'available';
+            $item->save();
+
+            return response()->json([
+                'message' => 'Item status updated succesfully',
+                'status' => $item->status
+            ]);
+        } catch (ModelNotFoundException $e){
+            return response()->json(['message' => 'Item not found.'], 404);
+        }
+    }
 }
