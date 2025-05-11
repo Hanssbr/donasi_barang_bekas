@@ -125,4 +125,19 @@ class ItemController extends Controller
 
         return ResponseHelper::jsonResponseMethod(data: $items, status: 'success');
     }
+
+    public function destroyMyItems($id)
+{
+    $item = Item::findOrFail($id);
+
+    // Pastikan user yang login adalah pemilik item
+    if ($item->user_id !== Auth::id()) {
+        return response()->json(['message' => 'Unauthorized'], 403);
+    }
+
+    $item->delete();
+
+    return ResponseHelper::jsonResponseMethod(data: $item, status: 'success');
+
+}
 }
