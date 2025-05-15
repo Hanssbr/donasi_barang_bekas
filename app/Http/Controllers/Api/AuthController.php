@@ -54,4 +54,30 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return ResponseHelper::jsonResponseMethod(status: 'success', message: 'successfully log out');
     }
+
+    public function updateProfile(Request $request)
+    {
+        $user = app('auth')->user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+            'photo' => 'nullable|image|max:2048', // optional upload photo
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('profile_photos', 'public');
+            $user->photo = $photoPath;
+        }
+
+        $user->save();
+
+        return ResponseHelper::jsonResponseMethod(data: $user, status: 'success');
+    }
+
 }
