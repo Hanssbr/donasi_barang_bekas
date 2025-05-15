@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -55,35 +56,60 @@ class AuthController extends Controller
         return ResponseHelper::jsonResponseMethod(status: 'success', message: 'successfully log out');
     }
 
-    public function updateProfile(Request $request)
-    {
-        $user = $request->user();
+public function updateProfile(Request $request)
+{
+    $user = $request->user();
 
-        $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string|max:20',
-            'photo' => 'nullable|image|max:2048',
-        ]);
+    // Validasi data (bisa sesuaikan aturan validasi)
+    $validated = $request->validate([
+        'name' => 'sometimes|string|max:255',
+        'email' => 'sometimes|email|unique:users,email,' . $user->id,
+        'phone' => 'sometimes|string|max:20',
+        'photo' => 'sometimes|image|max:2048', // max 2MB misalnya
+    ]);
 
-        if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('profile_photos', 'public');
-            $validated['photo'] = $path;
-        }
-
-        // Jika email diubah, reset verified
-        if (isset($validated['email']) && $validated['email'] !== $user->email) {
-            $user->email_verified_at = null;
-        }
-
-        $user->fill($validated);
-        $user->save();
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $user,
-        ]);
+    // Simpan foto profil jika ada
+    if ($request->hasFile('photo')) {
+        $path = $request->file('photo')->store('profile_photos', 'public');
+        $validated['photo'] = $path;
     }
+
+    // Jika email diubah, reset verifikasi email
+    if (isset($validated['email']) && $validated['email'] !== $user->email) {
+        $user->email_verified_at = null;
+    }
+
+    $user->fill($validated);
+    $user->save();
+
+    // Buat URL lengkap untuk foto, jika ada
+    $photoUrl = $user->photo ? asset('storage/' . $user->photo) : null;
+
+    return response()->json([
+        'status' => 'success',
+        'data' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'email_verified_at' => $user->email_verified_at,
+            'photo' => $user->photo,
+            'photo_url' => $photoUrl,
+            'role' => $user->role,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+        ],
+    ]);
+}
+
+
+
+
+
+
+
+
+
 
 
 
