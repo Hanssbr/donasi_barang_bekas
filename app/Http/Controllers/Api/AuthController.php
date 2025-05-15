@@ -56,37 +56,35 @@ class AuthController extends Controller
     }
 
     public function updateProfile(Request $request)
-{
-    $user = app('auth')->user(); // sudah betul
+    {
+        $user = $request->user();
 
-    $request->validate([
-        'name' => 'sometimes|required|string|max:255',
-        'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
-        'phone' => 'nullable|string|max:20',
-        'photo' => 'nullable|image|max:2048',
-    ]);
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+            'photo' => 'nullable|image|max:2048',
+        ]);
 
-    if ($request->has('name')) {
-        $user->name = $request->name;
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('profile_photos', 'public');
+            $validated['photo'] = $path;
+        }
+
+        // Jika email diubah, reset verified
+        if (isset($validated['email']) && $validated['email'] !== $user->email) {
+            $user->email_verified_at = null;
+        }
+
+        $user->fill($validated);
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $user,
+        ]);
     }
 
-    if ($request->has('email')) {
-        $user->email = $request->email;
-    }
-
-    if ($request->has('phone')) {
-        $user->phone = $request->phone;
-    }
-
-    if ($request->hasFile('photo')) {
-        $photoPath = $request->file('photo')->store('profile_photos', 'public');
-        $user->photo = $photoPath;
-    }
-
-    $user->save();
-
-    return ResponseHelper::jsonResponseMethod(data: $user, status: 'success');
-}
 
 
 }
