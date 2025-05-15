@@ -56,28 +56,37 @@ class AuthController extends Controller
     }
 
     public function updateProfile(Request $request)
-    {
-        $user = app('auth')->user();
+{
+    $user = app('auth')->user(); // sudah betul
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string|max:20',
-            'photo' => 'nullable|image|max:2048', // optional upload photo
-        ]);
+    $request->validate([
+        'name' => 'sometimes|required|string|max:255',
+        'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
+        'phone' => 'nullable|string|max:20',
+        'photo' => 'nullable|image|max:2048',
+    ]);
 
+    if ($request->has('name')) {
         $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-
-        if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('profile_photos', 'public');
-            $user->photo = $photoPath;
-        }
-
-        $user->save();
-
-        return ResponseHelper::jsonResponseMethod(data: $user, status: 'success');
     }
+
+    if ($request->has('email')) {
+        $user->email = $request->email;
+    }
+
+    if ($request->has('phone')) {
+        $user->phone = $request->phone;
+    }
+
+    if ($request->hasFile('photo')) {
+        $photoPath = $request->file('photo')->store('profile_photos', 'public');
+        $user->photo = $photoPath;
+    }
+
+    $user->save();
+
+    return ResponseHelper::jsonResponseMethod(data: $user, status: 'success');
+}
+
 
 }
