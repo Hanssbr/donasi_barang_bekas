@@ -3,6 +3,36 @@
 @section('title-content', 'Daftar Barang')
 @section('content')
 
+    <style>
+        .card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-description {
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-body h5 {
+            font-size: 1.1rem;
+            max-height: 2.4em;
+            /* kira-kira 2 baris */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .card-img-top.img-fixed {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+
+
     <div class="row">
         <!-- Menampilkan pesan sukses jika ada -->
         @if (session('success'))
@@ -13,7 +43,7 @@
 
         @foreach ($items as $item)
             <div class="col-md-4 mb-4"> <!-- Ganti 4 dengan 3 untuk 4 item per baris jika ingin lebih rapat -->
-                <div class="card">
+                <div class="card h-100">
                     @if ($item->photo)
                         <img src="{{ asset('storage/' . $item->photo) }}" class="card-img-top img-fixed" alt="photo">
                     @else
